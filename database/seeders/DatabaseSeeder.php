@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Property;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,5 +23,11 @@ class DatabaseSeeder extends Seeder
             'email' => 'hari@example.com',
             'password' => bcrypt(value:'password'),
         ]);
+
+        Property::factory(count: 10)->create([
+            'slider' => true,
+        ]);
+
+        Property::factory(count: 40)->create();
     }
 }
