@@ -2,16 +2,18 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PropertyResource\Pages;
-use App\Filament\Resources\PropertyResource\RelationManagers;
-use App\Models\Property;
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\Property;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\PropertyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\PropertyResource\RelationManagers;
 
 class PropertyResource extends Resource
 {
@@ -57,33 +59,33 @@ class PropertyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\IconColumn::make('slider')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('country'),
-                Tables\Columns\TextColumn::make('city'),
-                Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('sqm'),
-                Tables\Columns\IconColumn::make('bedrooms')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('bathrooms')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('garages')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('deleted_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                TextColumn::make('title')->sortable()->searchable(),
+//                Tables\Columns\TextColumn::make('description'),
+                IconColumn::make('slider')
+                    ->boolean()->sortable(),
+                TextColumn::make('country')->sortable()->searchable(),
+//                Tables\Columns\TextColumn::make('city'),
+//                Tables\Columns\TextColumn::make('address'),
+                TextColumn::make('price')->sortable()->alignRight(),
+                TextColumn::make('sqm')->sortable()->alignRight(),
+                IconColumn::make('bedrooms')->alignCenter()
+                    ->boolean()->sortable(),
+                IconColumn::make('bathrooms')->alignCenter()
+                    ->boolean()->sortable(),
+                IconColumn::make('garages')->alignCenter()
+                    ->boolean()->sortable(),
+//                Tables\Columns\TextColumn::make('deleted_at')
+//                    ->dateTime(),
+//                Tables\Columns\TextColumn::make('created_at')
+//                    ->dateTime(),
+//                Tables\Columns\TextColumn::make('updated_at')
+//                    ->dateTime(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                //Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
