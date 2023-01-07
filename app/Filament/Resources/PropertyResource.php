@@ -8,12 +8,17 @@ use App\Models\Property;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PropertyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PropertyResource\RelationManagers;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Tabs;
 
 class PropertyResource extends Resource
 {
@@ -23,36 +28,53 @@ class PropertyResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->maxLength(65535),
-                Forms\Components\Toggle::make('slider')
-                    ->required(),
-                Forms\Components\TextInput::make('country')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('city')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('address')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('price')
-                    ->required(),
-                Forms\Components\TextInput::make('sqm')
-                    ->required(),
-                Forms\Components\Toggle::make('bedrooms')
-                    ->required(),
-                Forms\Components\Toggle::make('bathrooms')
-                    ->required(),
-                Forms\Components\Toggle::make('garages')
-                    ->required(),
-            ]);
+        return $form->schema(
+            Tabs::make('Heading')
+                ->tabs([
+                    Tabs\Tab::make('Main Data')
+                        ->schema([
+                            TextInput::make('title')
+                                ->required()
+                                ->maxLength(255),
+                            RichEditor::make('description')
+                                ->required()
+                                ->maxLength(65535),
+                            TextInput::make('country')
+                                ->required()
+                                ->maxLength(255),
+                            TextInput::make('city')
+                                ->required()
+                                ->maxLength(255),
+                            TextInput::make('address')
+                                ->required()
+                                ->maxLength(255),
+                            TextInput::make('price')
+                                ->required(),
+                            TextInput::make('sqm')
+                                ->required(),
+                            TextInput::make('bedrooms')
+                                ->required(),
+                            TextInput::make('bathrooms')
+                                ->required(),
+                            TextInput::make('garages')
+                                ->required(),
+                            Toggle::make('slider')
+                                ->required(),
+
+                        ]),
+                    Tabs\Tab::make('Period')
+                        ->schema([
+                            DatePicker::make(name:'start_date'),
+                            DatePicker::make(name:'end_date'),
+                        ]),
+                    Tabs\Tab::make('Picture')
+                        ->schema([
+                            // ...
+                        ]),
+                ])
+
+            
+        );
     }
 
     public static function table(Table $table): Table
@@ -60,26 +82,17 @@ class PropertyResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->sortable()->searchable(),
-//                Tables\Columns\TextColumn::make('description'),
                 IconColumn::make('slider')
                     ->boolean()->sortable(),
                 TextColumn::make('country')->sortable()->searchable(),
-//                Tables\Columns\TextColumn::make('city'),
-//                Tables\Columns\TextColumn::make('address'),
                 TextColumn::make('price')->sortable()->alignRight(),
                 TextColumn::make('sqm')->sortable()->alignRight(),
-                IconColumn::make('bedrooms')->alignCenter()
-                    ->boolean()->sortable(),
-                IconColumn::make('bathrooms')->alignCenter()
-                    ->boolean()->sortable(),
-                IconColumn::make('garages')->alignCenter()
-                    ->boolean()->sortable(),
-//                Tables\Columns\TextColumn::make('deleted_at')
-//                    ->dateTime(),
-//                Tables\Columns\TextColumn::make('created_at')
-//                    ->dateTime(),
-//                Tables\Columns\TextColumn::make('updated_at')
-//                    ->dateTime(),
+                TextColumn::make('bedrooms')->alignRight()
+                    ->sortable(),
+                TextColumn::make('bathrooms')->alignRight()
+                    ->sortable(),
+                TextColumn::make('garages')->alignRight()
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),

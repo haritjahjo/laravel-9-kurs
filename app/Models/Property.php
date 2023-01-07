@@ -21,7 +21,9 @@ class Property extends Model
         'sqm', 
         'bedrooms',
         'bathrooms', 
-        'garages'
+        'garages',
+        'start_date',
+        'end_date',
     ];
 
 }

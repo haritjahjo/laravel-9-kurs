@@ -29,6 +29,8 @@ return new class extends Migration
             $table->unsignedTinyInteger('bathrooms');
             $table->unsignedTinyInteger('garages');
             $table->softDeletes();
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }
