@@ -9,6 +9,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Tabs;
+use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -90,12 +91,18 @@ class PropertyResource extends Resource
                             SpatieMediaLibraryFileUpload::make(name:'Slider Image')
                                 ->image()
                                 ->collection(collection:'slider')
+                                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                                    return (string) str($file->getClientOriginalName())->prepend('real-invest-');
+                                })
                                 ->columnSpan(span: 6),
                             SpatieMediaLibraryFileUpload::make(name:'Thumbnail Slider (Bitte speichren !)')
                                 ->image()
                                 ->multiple()
                                 ->enableReordering()
                                 ->collection(collection:'thumb-slider')
+                                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                                    return (string) str($file->getClientOriginalName())->prepend('real-invest-');
+                                })
                                 ->columnSpan(span: 6),
                         ])->columns(columns: 12),
                 ])
