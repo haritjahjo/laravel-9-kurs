@@ -17,20 +17,21 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->boolean('slider')
-                ->default(0)
-                ->comment('Home Top');
             $table->string('country');
             $table->string('city');
             $table->string('address');
             $table->unsignedInteger('price');
             $table->unsignedInteger('sqm');
-            $table->unsignedTinyInteger('bedrooms');
-            $table->unsignedTinyInteger('bathrooms');
-            $table->unsignedTinyInteger('garages');
+            $table->unsignedTinyInteger('bedrooms')->nullable();
+            $table->unsignedTinyInteger('bathrooms')->nullable();
+            $table->unsignedTinyInteger('garages')->default();
+            $table->boolean('slider')
+                ->default(value:false);
+            $table->boolean('visible')
+                ->default(value:true);
+            $table->date('start_date')->default(value:'2022-01-01');
+            $table->date('end_date')->default(value:'2023-01-01');
             $table->softDeletes();
-            $table->date('start_date');
-            $table->date('end_date');
             $table->timestamps();
         });
     }

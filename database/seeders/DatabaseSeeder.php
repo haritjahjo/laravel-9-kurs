@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Property::factory(count: 10)->create([
-            'slider' => true,
+//            'slider' => true,
         ]);
 
         Property::factory(count: 40)->create();

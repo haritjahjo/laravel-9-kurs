@@ -27,8 +27,8 @@ class PropertyFactory extends Factory
             'bedrooms' => rand(1, 5),
             'bathrooms' => rand(1, 3),
             'garages' => rand(1, 2),
-            'start_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
-            'end_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            // 'start_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
+            // 'end_date' => $this->faker->date($format = 'Y-m-d', $max = 'now'),
         ];
     }
 }

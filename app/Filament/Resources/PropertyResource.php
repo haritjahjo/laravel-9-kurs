@@ -75,7 +75,10 @@ class PropertyResource extends Resource
                                 ->columnSpan(span:3)
                                 ->required(),
                             Toggle::make('slider')
-                                ->columnSpan(span:12)
+                                ->columnSpan(span:3)
+                                ->required(),
+                            Toggle::make('visible')
+                                ->columnSpan(span:3)
                                 ->required(),
 
                         ]),
@@ -116,14 +119,18 @@ class PropertyResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')->sortable()->searchable(),
+                TextColumn::make('title')->sortable()->searchable()->limit(length:10),
+                TextColumn::make('created_at')->label(label:'Created')->sortable()->searchable()
+                    ->since()
+                    ->toggleable( isToggledHiddenByDefault:true)
+                    ->extraAttributes(['class' => 'bg-gray-200 dark:bg-blue-500']),
                 SpatieMediaLibraryImageColumn::make(name: 'main-images')
                     ->collection(collection:'thumb-slider')
                     ->width(width: 60)
                     ->height(height:80),
                 IconColumn::make('slider')
                     ->boolean()->sortable(),
-                TextColumn::make('country')->sortable()->searchable(),
+                TextColumn::make('country')->sortable()->searchable()->limit(length:10),
                 TextColumn::make('price')->sortable()->alignRight(),
                 TextColumn::make('sqm')->sortable()->alignRight(),
                 TextColumn::make('bedrooms')->alignRight()
@@ -136,7 +143,7 @@ class PropertyResource extends Resource
                     ->collection(collection:'slider')
                     ->width(width: 140)
                     ->height(height:80),
-            ])
+            ])->defaultSort(column:'updated_at', direction:'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
             ])
