@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Image\Manipulations;
+use Illuminate\Database\Eloquent\Casts\Attribute as CastsAttribute;
 
 
 class Property extends Model implements HasMedia
@@ -36,6 +38,7 @@ class Property extends Model implements HasMedia
         $this->addMediaConversion(name:'slider-image')
             ->performOnCollections(collectionNames:'slider')
             ->crop('crop-center', width: 1920, height: 960)
+            ->withResponsiveImages()
             ->nonQueued();        
         $this->addMediaConversion('thumb-slider')
             ->performOnCollections(collectionNames:'slider')
@@ -49,6 +52,14 @@ class Property extends Model implements HasMedia
             ->performOnCollections(collectionNames:'main-images')
             ->crop('crop-center', 120, 160)
             ->nonQueued();
+    }
+
+    protected function price(): Attribute
+    {
+        return CastsAttribute::make(
+            get: fn ($value) => number_format($value, decimals:0, decimal_separator:'', thousands_separator:','), 
+            set: fn ($value) => preg_replace(pattern:'/[^0-9]/', replacement:'', subject:$value),
+        );
     }
 
 
