@@ -13,15 +13,16 @@ use Livewire\TemporaryUploadedFile;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\PropertyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use App\Filament\Resources\PropertyResource\RelationManagers;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class PropertyResource extends Resource
 {
@@ -119,30 +120,40 @@ class PropertyResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')->sortable()->searchable()->limit(length:10),
+                TextColumn::make('title')->sortable()->searchable()->limit(length:10)
+                    ->tooltip('Title')->tooltip(fn (Model $record): string => "{$record->title}"),
                 TextColumn::make('created_at')->label(label:'Created')->sortable()->searchable()
                     ->since()
                     ->toggleable( isToggledHiddenByDefault:true)
-                    ->extraAttributes(['class' => 'bg-gray-200 dark:bg-blue-500']),
+                    ->extraAttributes(['class' => 'bg-gray-200 dark:bg-black']),
                 SpatieMediaLibraryImageColumn::make(name: 'main-images')
                     ->collection(collection:'thumb-slider')
                     ->width(width: 60)
-                    ->height(height:80),
+                    ->height(height:80)
+                    ->visibleFrom(breakpoint:'sm'),
                 IconColumn::make('slider')
-                    ->boolean()->sortable(),
-                TextColumn::make('country')->sortable()->searchable()->limit(length:10),
+                    ->boolean()->sortable()
+                    ->visibleFrom(breakpoint:'md'),
+                TextColumn::make('country')->sortable()->searchable()->limit(length:10)
+                    ->tooltip('Title')->tooltip(fn (Model $record): string => "{$record->country}"),
                 TextColumn::make('price')->sortable()->alignRight(),
-                TextColumn::make('sqm')->sortable()->alignRight(),
+                TextColumn::make('sqm')->sortable()->alignRight()
+                    ->visibleFrom(breakpoint:'md'),
                 TextColumn::make('bedrooms')->alignRight()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom(breakpoint:'lg'),
                 TextColumn::make('bathrooms')->alignRight()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom(breakpoint:'lg'),
                 TextColumn::make('garages')->alignRight()
-                    ->sortable(),
+                    ->sortable()
+                    ->visibleFrom(breakpoint:'lg'),
                 SpatieMediaLibraryImageColumn::make(name: 'slider-image')
                     ->collection(collection:'slider')
+                    ->conversion(conversion:'thumb-slider')
                     ->width(width: 140)
-                    ->height(height:80),
+                    ->height(height:80)
+                    ->visibleFrom(breakpoint:'xl'),
             ])->defaultSort(column:'updated_at', direction:'desc')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
