@@ -3,6 +3,8 @@
         'filament-brand text-xl font-bold tracking-tight',
         'dark:text-white' => config('filament.dark_mode'),
     ])>
-        {{ $brand }}
+
+    <div><img src="{{ asset('/images/logo-twitter.png') }}" alt="Logo" class="h-10"></div>
+        {{-- {{ $brand }} --}}
     </div>
 @endif

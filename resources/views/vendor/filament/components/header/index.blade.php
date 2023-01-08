@@ -9,7 +9,7 @@
         <x-filament::header.heading>
         
         <div class="flex"> 
-            <div><img class="border mr-2" src="/logo.jpg" alt="Logo" style="width: 4.5rem;"></div>
+            <div><img class="border mr-2 w-20" src="/logo.jpg" alt="Logo" style="width: 4.5rem;"></div>
             <div>{{ $heading }}</div>
         </div>
         
