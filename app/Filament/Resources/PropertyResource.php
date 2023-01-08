@@ -21,6 +21,7 @@ use App\Filament\Resources\PropertyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use App\Filament\Resources\PropertyResource\RelationManagers;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class PropertyResource extends Resource
 {
@@ -88,13 +89,6 @@ class PropertyResource extends Resource
                         ]),
                     Tabs\Tab::make('Picture')
                         ->schema([
-                            SpatieMediaLibraryFileUpload::make(name:'Slider Image')
-                                ->image()
-                                ->collection(collection:'slider')
-                                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
-                                    return (string) str($file->getClientOriginalName())->prepend('real-invest-');
-                                })
-                                ->columnSpan(span: 6),
                             SpatieMediaLibraryFileUpload::make(name:'Thumbnail Slider (Bitte speichren !)')
                                 ->image()
                                 ->multiple()
@@ -104,6 +98,13 @@ class PropertyResource extends Resource
                                     return (string) str($file->getClientOriginalName())->prepend('real-invest-');
                                 })
                                 ->columnSpan(span: 6),
+                            SpatieMediaLibraryFileUpload::make(name:'Slider Image')
+                                ->image()
+                                ->collection(collection:'slider')
+                                ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file): string {
+                                    return (string) str($file->getClientOriginalName())->prepend('real-invest-');
+                                })
+                                ->columnSpan(span: 6),                            
                         ])->columns(columns: 12),
                 ])
 
@@ -116,6 +117,10 @@ class PropertyResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->sortable()->searchable(),
+                SpatieMediaLibraryImageColumn::make(name: 'main-images')
+                    ->collection(collection:'thumb-slider')
+                    ->width(width: 60)
+                    ->height(height:80),
                 IconColumn::make('slider')
                     ->boolean()->sortable(),
                 TextColumn::make('country')->sortable()->searchable(),
@@ -127,6 +132,10 @@ class PropertyResource extends Resource
                     ->sortable(),
                 TextColumn::make('garages')->alignRight()
                     ->sortable(),
+                SpatieMediaLibraryImageColumn::make(name: 'slider-image')
+                    ->collection(collection:'slider')
+                    ->width(width: 140)
+                    ->height(height:80),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
