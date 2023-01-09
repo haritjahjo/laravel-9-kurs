@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get(uri: '/', action: 'App\Http\Controllers\HomeController@getHomeData');
 
 Route::middleware([
     'auth:sanctum',
