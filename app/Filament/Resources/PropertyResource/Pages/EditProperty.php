@@ -19,4 +19,11 @@ class EditProperty extends EditRecord
             Actions\RestoreAction::make(),
         ];
     }
+
+    protected function afterSave(): void
+    {
+        // Runs after the form fields are saved to the database.
+
+        $this->fillForm();
+    }
 }

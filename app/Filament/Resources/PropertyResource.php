@@ -5,11 +5,13 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Property;
+use Squire\Models\Country;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Tabs;
 use Livewire\TemporaryUploadedFile;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -48,10 +50,16 @@ class PropertyResource extends Resource
                                 ->columnSpan(span:12)
                                 ->required()
                                 ->maxLength(65535),
-                            TextInput::make('country')
+                            // TextInput::make('country')
+                            //     ->columnSpan(span:6)
+                            //     ->required()
+                            //     ->maxLength(255),
+                            Select::make('country')
+                                ->label('Country')
+                                ->options(Country::all()->pluck('name', 'name'))
                                 ->columnSpan(span:6)
-                                ->required()
-                                ->maxLength(255),
+                                ->searchable()
+                                ->required(),                                
                             TextInput::make('city')
                                 ->columnSpan(span:6)
                                 ->required()

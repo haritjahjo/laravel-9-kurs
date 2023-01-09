@@ -57,8 +57,8 @@ class Property extends Model implements HasMedia
     protected function price(): Attribute
     {
         return CastsAttribute::make(
-            get: fn ($value) => number_format($value, decimals:0, decimal_separator:'', thousands_separator:','), 
-            set: fn ($value) => preg_replace(pattern:'/[^0-9]/', replacement:'', subject:$value),
+            get: fn ($value) => number_format(intval($value), decimals:0, decimal_separator:'', thousands_separator:','), 
+            set: fn ($value) => preg_replace(pattern:'/[^0-9]/', replacement:'', subject: intval($value)),
         );
     }
 
