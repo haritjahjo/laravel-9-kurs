@@ -1,7 +1,8 @@
 @php
     $img = $sliderSingle->media[0];
 @endphp
-<div class="swiper-slide carousel-item-a intro-item bg-image" style="background-image: url({{"/storage/" .$img->id . "/" . $img->file_name}})">
+<div class="swiper-slide carousel-item-a intro-item bg-image" 
+    style="background-image: url({{"/storage/" .$img->id . "/conversions/real-invest-" . $img->name . "-slider-image.jpg"}})">
     <div class="overlay overlay-a"></div>
         <div class="intro-content display-table">
             <div class="table-cell">

@@ -1,10 +1,11 @@
 @php
     $img = $project->media[0];
+
 @endphp
 <div class="carousel-item-b swiper-slide">
     <div class="card-box-a card-shadow">
     <div class="img-box-a">
-        <img src="{{ "/storage/" .$img->id . "/" . $img->file_name}}" alt="" class="img-a img-fluid">
+        <img src="{{ "/storage/" .$img->id . "/conversions/real-invest-" . $img->name . "-thumb-image.jpg"}}" alt="" class="img-a img-fluid">
     </div>
     <div class="card-overlay">
         <div class="card-overlay-a-content">
